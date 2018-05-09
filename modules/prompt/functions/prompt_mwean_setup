@@ -1,0 +1,61 @@
+# pmodload 'helper'
+
+function prompt_mwean_precmd {
+  git-info
+  git_branch
+  prepare_header
+
+  _filler=""
+  for x ({0..${_filler_width}}) _filler+=${_separator}
+
+  echo ${_left}${_filler}${_right}
+}
+
+function git_branch {
+  branch_name=$(git-branch-current 2> /dev/null)
+
+  if [ $? -eq 0 ]
+  then
+    _git_branch='%F{red}|%f%F{green}'"${branch_name}"'%f'
+  else
+    _git_branch=''
+  fi
+}
+
+function prepare_header {
+  # do all substitutions and expansions
+  __left=${(e)_left_header}
+  __right=${(e)_right_header}
+  # remove non-printable color characters to compute length correctly
+  _left_width=${#${(S%%)__left//$~__zero/}}
+  _right_width=${#${(S%%)__right//$~__zero/}}
+  # do prompt related expansions
+  _left=${(%)__left}
+  _right=${(%)__right}
+
+  _filler_width=$(( $COLUMNS - 3 - $_left_width - $_right_width ))
+}
+
+function prompt_mwean_setup {
+  # setopt LOCAL_OPTIONS
+  # unsetopt XTRACE KSH_ARRAYS
+  # prompt_opts=(cr percent subst)
+
+  autoload -Uz add-zsh-hook
+
+  add-zsh-hook precmd prompt_mwean_precmd
+
+  zstyle ':prezto:module:git:info:branch' format '%b'
+  zstyle ':prezto:module:git:info:keys' format 'branch' '%b'
+
+  __zero='%([BSUbfksu]|([FB]|){*})'
+  _separator='―'
+  _pwd='%F{cyan}%0~%f'
+
+  _left_header='${_pwd}${_git_branch} '
+  _right_header=" %F{white}%D{%-I:%M:%S}%f"
+
+  PROMPT='%(?..%F{red})>%f '
+}
+
+prompt_mwean_setup "$@"
