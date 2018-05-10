@@ -4,8 +4,12 @@
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
+# User environment overrides for non-interactive, non-login shells (when invoked via shebang in a script or via zsh -c [script] or when invoked by make. Personal environment overrides, such as MANPATH, TERM, fpath (non interactive scripts should have their environment completly set up here)
 
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
+
+source ~/.variables
+source ~/.secrets

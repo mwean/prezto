@@ -4,6 +4,7 @@
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
+# Personal environment overrides, such as MANPATH, TERM, fpath (non interactive scripts should have their environment completly set up here). Preferred $LOCALE, $LANG, readlne config, cdpath, session managers, additional fpath user functions, login shells (but non necessarily ineractive as when invoked via ssh remote cmd ) will read config up to this point
 
 #
 # Browser
@@ -17,7 +18,6 @@ fi
 # Editors
 #
 
-export EDITOR='nano'
 export VISUAL='nano'
 export PAGER='less'
 
@@ -43,9 +43,16 @@ typeset -gU cdpath fpath mailpath path
 
 # Set the list of directories that Zsh searches for programs.
 path=(
+  ~/Code/Work/lendinghome-monolith/toolbelt
+  ~/Code/Work/lendinghome-monolith/bin
+  ~/.rbenv/shims
   /usr/local/{bin,sbin}
+  ~/.bin
   $path
 )
+
+# Load additional shell functions
+fpath=(usr/local/share/zsh/site-functions $fpath)
 
 #
 # Less

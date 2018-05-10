@@ -4,10 +4,46 @@
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
+# User customization of their interactive environment for terminals. Sourcing custom shell additions (gcloud.comp.inc), custom user frameworks (zprezto is invoked here), additional path required by custom software installed in /opt/
+
+# Profile startup
+# zmodload zsh/zprof
 
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Customize to your needs...
+source ~/.interactive_variables
+source ~/.zsh/aliases
+source ~/.zsh/zsh_autosuggest
+source ~/.zsh/fzf
+
+for function in ~/.zsh/functions/*; do
+  source $function
+done
+
+# Move and rename with regex http://zshwiki.org/home/builtin/functions/zmv
+autoload -U zmv
+
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic
+
+source /usr/local/opt/asdf/asdf.sh
+# source /usr/local/opt/asdf/completions/asdf.bash
+
+# Tab completion for serverless
+serverless_completions=('serverless' 'sls')
+
+for pkg in serverless_completions; do
+  comp_file="~/.config/yarn/global/node_modules/tabtab/.completions/$pkg.zsh"
+
+  [[ -f $comp_file ]] && source $comp_file
+done
+
+source ~/.zprezto/modules/prompt/external/async/async.zsh
+async_init
+source ~/.zsh/add_yarn_to_path
+
+# Profile startup
+# zprof
