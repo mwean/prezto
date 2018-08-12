@@ -16,7 +16,12 @@ function set-window-title {
   local title_format{,ted}
   zstyle -s ':prezto:module:terminal:window-title' format 'title_format' || title_format="%s"
   zformat -f title_formatted "$title_format" "s:$argv"
-  printf '\e]2;%s\a' "${(V%)title_formatted}"
+
+  if [[ $CUSTOM_TERM_NAME ]]; then
+    printf '\e]2;%s\a' "${(V%)title_formatted} [$TERM_NAME]"
+  else
+    printf '\e]2;%s\a' "${(V%)title_formatted}"
+  fi
 }
 
 # Sets the terminal tab title.
@@ -24,7 +29,12 @@ function set-tab-title {
   local title_format{,ted}
   zstyle -s ':prezto:module:terminal:tab-title' format 'title_format' || title_format="%s"
   zformat -f title_formatted "$title_format" "s:$argv"
-  printf '\e]1;%s\a' "${(V%)title_formatted}"
+
+  if [[ $CUSTOM_TERM_NAME ]]; then
+    printf '\e]1;%s\a' "${(V%)title_formatted} [$TERM_NAME]"
+  else
+    printf '\e]1;%s\a' "${(V%)title_formatted}"
+  fi
 }
 
 # Sets the terminal multiplexer tab title.

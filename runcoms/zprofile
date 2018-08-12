@@ -52,7 +52,7 @@ path=(
 )
 
 # Load additional shell functions
-fpath=(usr/local/share/zsh/site-functions $fpath)
+fpath=(usr/local/share/zsh/site-functions ~/.zsh/completion $fpath)
 
 #
 # Less
