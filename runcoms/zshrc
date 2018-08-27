@@ -14,7 +14,6 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-source ~/.interactive_variables
 source ~/.zsh/aliases
 source ~/.zsh/fzf
 
@@ -43,6 +42,10 @@ for pkg in serverless_completions; do
 
   [[ -f $comp_file ]] && source $comp_file
 done
+
+threads_minus_one=$(expr $(sysctl -n hw.ncpu) - 1)
+git config --global pack.threads "$threads_minus_one"
+git config --global grep.threads "$threads_minus_one"
 
 source ~/.zprezto/modules/prompt/external/async/async.zsh
 async_init
