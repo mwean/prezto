@@ -18,7 +18,7 @@ function set-window-title {
   zformat -f title_formatted "$title_format" "s:$argv"
 
   if [[ $CUSTOM_TERM_NAME ]]; then
-    printf '\e]2;%s\a' "${(V%)title_formatted} [$TERM_NAME]"
+    printf '\e]2;%s\a' "[$TERM_NAME] ${(V%)title_formatted}"
   else
     printf '\e]2;%s\a' "${(V%)title_formatted}"
   fi
@@ -31,7 +31,7 @@ function set-tab-title {
   zformat -f title_formatted "$title_format" "s:$argv"
 
   if [[ $CUSTOM_TERM_NAME ]]; then
-    printf '\e]1;%s\a' "${(V%)title_formatted} [$TERM_NAME]"
+    printf '\e]1;%s\a' "[$TERM_NAME] ${(V%)title_formatted}"
   else
     printf '\e]1;%s\a' "${(V%)title_formatted}"
   fi
